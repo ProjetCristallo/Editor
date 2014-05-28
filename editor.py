@@ -5,26 +5,27 @@ import os
 
 ressourceDir = '../ressources/'
 blockTypes = {
-				'Simple':{'file':'Simple.png', 'position':sf.Vector2(0,0)},
-				'Breakable':{'file':'Breakable.png', 'position':sf.Vector2(0,0)},
-				'Hole':{'file':'Hole.png', 'position':sf.Vector2(0,0)},
-				'Unilateral_down':{'file':'unilateral_down.png', 'position':sf.Vector2(0,0)},
-				'Unilateral_up':{'file':'unilateral_up.png', 'position':sf.Vector2(0,0)},
-				'Unilateral_right':{'file':'unilateral_right.png', 'position':sf.Vector2(0,0)},
-				'Unilateral_left':{'file':'unilateral_left.png', 'position':sf.Vector2(0,0)},
-				'C_down':{'file':'Change_down.png', 'position':sf.Vector2(0,0)},
-				'C_up':{'file':'Change_up.png', 'position':sf.Vector2(0,0)},
-				'C_right':{'file':'Change_right.png', 'position':sf.Vector2(0,0)},
-				'C_left':{'file':'Change_left.png', 'position':sf.Vector2(0,0)},
-				'End':{'file':'Star.png', 'position':sf.Vector2(0,0)},
-				'Begin':{'file':'Bille.png', 'position':sf.Vector2(0,0)},
+				'Simple':{'file':'Simple.png', 'position':sf.Vector2(0,0),'name':'simple'},
+				'Breakable':{'file':'Breakable.png', 'position':sf.Vector2(0,0),'name':'breakable','arg':'3'},
+				'Hole':{'file':'Hole.png', 'position':sf.Vector2(0,0),'name':'hole'},
+				'Unilateral_down':{'file':'unilateral_down.png', 'position':sf.Vector2(0,0),'name':'unilateral','arg':'down'},
+				'Unilateral_up':{'file':'unilateral_up.png', 'position':sf.Vector2(0,0),'name':'unilateral','arg':'up'},
+				'Unilateral_right':{'file':'unilateral_right.png', 'position':sf.Vector2(0,0),'name':'unilateral','arg':'right'},
+				'Unilateral_left':{'file':'unilateral_left.png', 'position':sf.Vector2(0,0),'name':'unilateral','arg':'left'},
+				'C_down':{'file':'Change_down.png', 'position':sf.Vector2(0,0),'name':'change_down'},
+				'C_up':{'file':'Change_up.png', 'position':sf.Vector2(0,0),'name':'change_up'},
+				'C_right':{'file':'Change_right.png', 'position':sf.Vector2(0,0),'name':'change_right'},
+				'C_left':{'file':'Change_left.png', 'position':sf.Vector2(0,0),'name':'change_left'},
+				'End':{'file':'Star.png', 'position':sf.Vector2(0,0),'name':'end'},
+				'Begin':{'file':'Bille.png', 'position':sf.Vector2(0,0),'name':'begin'},
 				'Empty':{'file':'Empty.png', 'position':sf.Vector2(0,0)}
 			}
 
 uniqueBlocks = ('Begin','End')
 
 class Editor:
-	def __init__(self):
+	def __init__(self, fileName):
+		self.fileName = fileName
 		self.dimX=10
 		self.dimY=8
 		self.windowDimX = 60*self.dimX
@@ -100,6 +101,20 @@ class Editor:
 				y = int(e.position.y/60 - ((len(blockTypes)-1)/self.dimX+1))
 				self.level[y][x] = 'Empty'
 
+	def save(self):
+		f = open(self.fileName,mode='w')
+		for y in range(len(self.level)):
+			line = self.level[y]
+			for x in range(len(line)):
+				b = self.level[y][x]
+				if 'name' in blockTypes[b]:
+					s = blockTypes[b]['name']+' '+str(x)+' '+str(y)
+					if 'arg' in blockTypes[b]:
+						s += ' ' + blockTypes[b]['arg']
+					s += '\n'
+					f.write(s)
+		f.close()
+
 	def run(self):
 		while self.window.is_open:
 			for event in self.window.events:
@@ -110,6 +125,9 @@ class Editor:
 			self.window.clear(sf.Color.WHITE)
 			self.display()
 			self.window.display()
+		self.save()
 
-ed = Editor()
+fileName = 'level.txt'
+
+ed = Editor(fileName)
 ed.run()
