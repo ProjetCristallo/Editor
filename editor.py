@@ -1,6 +1,7 @@
 # -*- coding=utf8 -*-
 
 import sfml as sf
+import sys
 import os
 
 ressourceDir = '../ressources/'
@@ -128,6 +129,9 @@ class Editor:
 		self.save()
 
 fileName = 'level.txt'
+
+if len(sys.argv) > 1:
+	fileName = sys.argv[1]
 
 ed = Editor(fileName)
 ed.run()
