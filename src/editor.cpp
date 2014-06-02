@@ -37,6 +37,21 @@ void Editor::initUI()
 	this->m_mainWidget->resize(this->m_sizeX, this->m_sizeY);
 	this->setCentralWidget(this->m_mainWidget);
 
+	// Menu creation
+	this->createMenu();
+
+	// Window layout
+	this->m_layout = new QGridLayout();
+
+	// Buttons creation
+	this->createChoiceButtons();
+
+	// Set the layout
+	this->m_mainWidget->setLayout(this->m_layout);
+}
+
+void Editor::createMenu()
+{
 	// Menu bar creation
 	this->m_menuBar = this->menuBar();
 	this->m_fileMenu = this->m_menuBar->addMenu("Fichier");
@@ -44,10 +59,12 @@ void Editor::initUI()
 	QAction *exitAction = new QAction("Quitter", this);
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(quit()));
 	this->m_fileMenu->addAction(exitAction);
-	// Window layout
-	this->m_layout = new QGridLayout();
+}
+
+void Editor::createChoiceButtons()
+{
 	// Signal mapper creation
-	m_blockButtonsMapper = new QSignalMapper(this);
+	this->m_blockButtonsMapper = new QSignalMapper(this);
 	// Button creation
 	int i = 0;
 	int j = 0;
@@ -85,8 +102,6 @@ void Editor::initUI()
 	}
 	// Connect the Signal mapper to the callback
 	connect(this->m_blockButtonsMapper, SIGNAL(mapped(QString)), this, SLOT(setCurrentBlock(QString)));
-	// Set the layout
-	this->m_mainWidget->setLayout(this->m_layout);
 }
 
 void Editor::quit()
@@ -97,5 +112,4 @@ void Editor::quit()
 void Editor::setCurrentBlock(QString block)
 {
 	this->m_currentBlock = block.toStdString();
-	std::cerr << this->m_currentBlock;
 }

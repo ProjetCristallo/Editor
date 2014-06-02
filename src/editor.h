@@ -48,6 +48,8 @@ class Editor: public QMainWindow
 		
 		// UI initialization
 		void initUI();
+		void createMenu();
+		void createChoiceButtons();
 
 	public slots:
 		void quit();
