@@ -51,7 +51,7 @@ class Editor: public QMainWindow
 
 	public slots:
 		void quit();
-		void setCurrentBlock(std::string block);
+		void setCurrentBlock(QString block);
 	public:
 		Editor(int dimX = 10, int dimY = 8);
 		~Editor();

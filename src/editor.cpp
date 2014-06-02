@@ -54,15 +54,28 @@ void Editor::initUI()
 	typedef std::map<std::string, Block*>::iterator it_blockMap;
 	for(it_blockMap it = Block::TYPES.begin() ; it != Block::TYPES.end() ; it++)
 	{
+		// Get the name of the block
 		QString name = QString::fromStdString(it->second->getName());
+		// Get the Sprite of the block
 		QString imageFile = QString::fromStdString(it->second->getImageFile());
+
+		// Make the path to the sprite
 		QString imagePath = QString::fromStdString(resourceDir);
 		imagePath.append(imageFile);
-		// TODO : Icons (resourceDir+imageFile)
+
+		// Create the button
 		QPushButton *button = new QPushButton("", this->m_mainWidget);
 		button->setIcon(QIcon(imagePath));
 		button->setIconSize(QSize(BUTTON_ICON_SIZE,BUTTON_ICON_SIZE));
+
+		// Connect the button to a callback
+		connect(button, SIGNAL(clicked()), this->m_blockButtonsMapper, SLOT(map()));
+		this->m_blockButtonsMapper->setMapping(button, name);
+
+		// Add the button to the grid
 		this->m_layout->addWidget(button, i,j);
+
+		// Update the index
 		j++;
 		if((j+1)*BUTTON_ICON_SIZE > this->m_sizeY)
 		{
@@ -70,6 +83,9 @@ void Editor::initUI()
 			j = 0;
 		}
 	}
+	// Connect the Signal mapper to the callback
+	connect(this->m_blockButtonsMapper, SIGNAL(mapped(QString)), this, SLOT(setCurrentBlock(QString)));
+	// Set the layout
 	this->m_mainWidget->setLayout(this->m_layout);
 }
 
@@ -78,7 +94,8 @@ void Editor::quit()
 	this->close();
 }
 
-void Editor::setCurrentBlock(std::string block)
+void Editor::setCurrentBlock(QString block)
 {
-	this->m_currentBlock = block;
+	this->m_currentBlock = block.toStdString();
+	std::cerr << this->m_currentBlock;
 }
