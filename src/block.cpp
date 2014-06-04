@@ -1,11 +1,11 @@
 #include "block.h"
 
 std::map<std::string, Block*> Block::TYPES;
+std::vector<std::string> uniqueBlocks;
 
 Block::Block(std::string name, std::string imageFile)
 {
 	this->m_name = name;
-	this->m_imageFile = imageFile;
 	QString imagePath = QString::fromStdString(resourceDir);
 	imagePath.append(QString::fromStdString(imageFile));
 	this->m_sprite = new QIcon(imagePath);
@@ -18,11 +18,6 @@ Block::~Block()
 std::string Block::getName()
 {
 	return this->m_name;
-}
-
-std::string Block::getImageFile()
-{
-	return this->m_imageFile;
 }
 
 QIcon *Block::getSprite()
@@ -69,4 +64,6 @@ void Block::initBlockTypes()
 		Block *b = new Block(blockNames[i],imageFiles[i]);
 		TYPES.insert(std::pair<std::string,Block*>(blockNames[i],b));
 	}
+	uniqueBlocks.push_back("Begin");
+	uniqueBlocks.push_back("End");
 }

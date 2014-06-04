@@ -18,6 +18,8 @@ Editor::Editor(int dimX, int dimY):QMainWindow()
 	this->m_level = new Level(this->m_dimX, this->m_dimY);
 
 	this->initUI();
+
+	this->m_levelFile = "";
 }
 
 Editor::~Editor()
@@ -68,33 +70,77 @@ void Editor::createMenu()
 	QAction *exitAction = new QAction("Quitter", this);
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(quit()));
 	this->m_fileMenu->addAction(exitAction);
+	// Save action
+	QAction *saveAction = new QAction("Enregistrer", this);
+	connect(saveAction, SIGNAL(triggered()), this, SLOT(saveLevel()));
+	this->m_fileMenu->addAction(saveAction);
+	// Save as action
+	QAction *saveAsAction = new QAction("Enregistrer sous", this);
+	connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveLevelAs()));
+	this->m_fileMenu->addAction(saveAsAction);
 }
 
 void Editor::createLevelView()
 {
+	// Signal mapper creation
+	this->m_levelButtonsMapper = new QSignalMapper(this);
 	// Level layout
 	this->m_levelLayout = new QGridLayout();
+	// Create the button array
+	this->m_levelButtons = new QPushButton**[this->m_dimX];
 	for(int i = 0 ; i < this->m_dimX ; i++)
 	{
+		this->m_levelButtons[i] = new QPushButton*[this->m_dimY];
 		for(int j = 0 ; j < this->m_dimY ; j++)
 		{
 			Block *tmp = this->m_level->getBlock(i,j);
 
-			// Get the Sprite of the block
-			QString imageFile = QString::fromStdString(tmp->getImageFile());
-			QString imagePath = QString::fromStdString(resourceDir);
-			imagePath.append(imageFile);
-
 			// Create the button
-			QPushButton *button = new QPushButton("", this->m_levelFrame);
-			button->setIcon(QIcon(imagePath));
-			button->setIconSize(QSize(SPRITE_SIZE ,SPRITE_SIZE));
+			this->m_levelButtons[i][j] = new QPushButton("", this->m_levelFrame);
+			this->m_levelButtons[i][j]->setIcon(*(tmp->getSprite()));
+			this->m_levelButtons[i][j]->setIconSize(QSize(SPRITE_SIZE ,SPRITE_SIZE));
 
-			// Add the button to the grid
-			this->m_levelLayout->addWidget(button, j,i);
+			QString args = "";
+			args.append(QString::number(i));
+			args.append(" ");
+			args.append(QString::number(j));
+
+			// Set the callback
+			connect(this->m_levelButtons[i][j], SIGNAL(clicked()), this->m_levelButtonsMapper, SLOT(map()));
+			this->m_levelButtonsMapper->setMapping(this->m_levelButtons[i][j], args);
+
+			// Add the this->m_levelButtons[i][j] to the grid
+			this->m_levelLayout->addWidget(this->m_levelButtons[i][j], j,i);
 		}
 	}
+	// Connect the Signal mapper to the callback
+	connect(this->m_levelButtonsMapper, SIGNAL(mapped(QString)), this, SLOT(setLevelBlock(QString)));
+	// Set the layout
 	this->m_levelFrame->setLayout(this->m_levelLayout);
+}
+
+void Editor::setLevelBlock(QString args)
+{
+	// Parse the arguments
+	QStringList list = args.split(' ');
+	// Get the name of the block to put
+	std::string block = this->m_currentBlock;
+	// Get the coordinates of the block
+	int x = list[0].toInt();
+	int y = list[1].toInt();
+	// Delete the previous block in the level if the new block is unique
+	for(int i = 0 ; i < uniqueBlocks.size() ; i++)
+	{
+		if(block == uniqueBlocks[i])
+		{
+			this->deleteUniqueBlock(block);
+		}
+	}
+	// Set the block in the level
+	this->m_level->setBlock(x,y,block);
+	// Set the icon of the button
+	Block *b = this->m_level->getBlock(x,y);
+	this->m_levelButtons[x][y]->setIcon(*(b->getSprite()));
 }
 
 void Editor::createChoiceButtons()
@@ -111,16 +157,9 @@ void Editor::createChoiceButtons()
 	{
 		// Get the name of the block
 		QString name = QString::fromStdString(it->second->getName());
-		// Get the Sprite of the block
-		QString imageFile = QString::fromStdString(it->second->getImageFile());
-
-		// Make the path to the sprite
-		QString imagePath = QString::fromStdString(resourceDir);
-		imagePath.append(imageFile);
-
 		// Create the button
 		QPushButton *button = new QPushButton("", this->m_mainWidget);
-		button->setIcon(QIcon(imagePath));
+		button->setIcon(*(it->second->getSprite()));
 		button->setIconSize(QSize(BUTTON_ICON_SIZE,BUTTON_ICON_SIZE));
 
 		// Connect the button to a callback
@@ -152,4 +191,47 @@ void Editor::quit()
 void Editor::setCurrentBlock(QString block)
 {
 	this->m_currentBlock = block.toStdString();
+}
+
+void Editor::saveLevel()
+{
+	if(this->m_levelFile == "")
+	{
+		this->m_levelFile = QFileDialog::getSaveFileName(	this, 
+				tr("Choix du fichier"), 
+				QDir::currentPath(), 
+				tr("text files (*.txt)")
+				);
+	}
+	this->m_level->save(this->m_levelFile);
+}
+
+void Editor::saveLevelAs()
+{
+	this->m_levelFile = QFileDialog::getSaveFileName(	this, 
+			tr("Choix du fichier"), 
+			QDir::currentPath(), 
+			tr("text files (*.txt)")
+			);
+	this->m_level->save(this->m_levelFile);
+}
+
+void Editor::deleteUniqueBlock(std::string block)
+{
+	// For each block of the level
+	for(int i = 0 ; i < this->m_dimX ; i++)
+	{
+		for(int j = 0 ; j < this->m_dimY ; j++)
+		{
+			// If the block of the type we want, we make it empty
+			if(this->m_level->getBlock(i,j)->getName() == block)
+			{
+				// Set the block in the level
+				this->m_level->setBlock(i,j,"Empty");
+				// Set the icon of the button
+				Block *b = this->m_level->getBlock(i,j);
+				this->m_levelButtons[i][j]->setIcon(*(b->getSprite()));
+			}
+		}
+	}
 }

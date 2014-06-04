@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <QIcon>
+#include <vector>
 
 const std::string resourceDir = "../ressources/";
 
@@ -12,8 +13,6 @@ class Block
 	private:
 		// Block name
 		std::string m_name;
-		// Block sprite file
-		std::string m_imageFile;
 		// Block sprite
 		QIcon *m_sprite;
 	public:
@@ -23,7 +22,6 @@ class Block
 		~Block();
 
 		std::string getName();
-		std::string getImageFile();
 		QIcon *getSprite();
 
 		static void initBlockTypes();

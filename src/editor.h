@@ -10,12 +10,16 @@
 #include <QString>
 #include <QSplitter>
 #include <QFrame>
+#include <QFileDialog>
 
 #include "level.h"
 #include "block.h"
 
 #include <string>
 #include <iostream>
+#include <vector>
+
+extern std::vector<std::string> uniqueBlocks;
 
 class Editor: public QMainWindow
 {
@@ -47,6 +51,7 @@ class Editor: public QMainWindow
 		QFrame *m_levelFrame;
 		// Level view widget
 		QWidget *m_levelWidget;
+		QPushButton ***m_levelButtons;
 
 		// Main widget layout
 		QGridLayout *m_mainLayout;
@@ -55,23 +60,31 @@ class Editor: public QMainWindow
 		// Level frame layout
 		QGridLayout *m_levelLayout;
 
-		// Signal mapper for the buttons
+		// Signal mapper for the choice buttons
 		QSignalMapper *m_blockButtonsMapper;
+		// Signal mapper for the level buttons
+		QSignalMapper *m_levelButtonsMapper;
 
 		// Menu bar
 		QMenuBar *m_menuBar;
 		QMenu *m_fileMenu;
-		
+
+		// File name for the level
+		QString m_levelFile;
 
 		// UI initialization
 		void initUI();
 		void createMenu();
 		void createChoiceButtons();
 		void createLevelView();
+		void deleteUniqueBlock(std::string block);
 
 	public slots:
 		void quit();
 		void setCurrentBlock(QString block);
+		void setLevelBlock(	QString args);
+		void saveLevel();
+		void saveLevelAs();
 	public:
 		Editor(int dimX = 10, int dimY = 8);
 		~Editor();

@@ -2,7 +2,10 @@
 #define __LEVEL__
 #include "block.h"
 #include <iostream>
-#include <fstream>
+#include <string>
+#include <sstream>
+#include <QFile>
+#include <QString>
 
 class Level
 {
@@ -23,6 +26,6 @@ class Level
 		void setBlock(int x, int y, Block *b);
 		void setBlock(int x, int y, std::string name);
 
-		void save(char *fileName);
+		void save(QString fileName);
 };
 #endif
