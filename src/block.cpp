@@ -26,6 +26,26 @@ QIcon *Block::getSprite()
 	return this->m_sprite;
 }
 
+void Block::setIdentifier(std::string id)
+{
+	this->m_identifier = id;
+}
+
+void Block::setArguments(std::string arg)
+{
+	this->m_arguments = arg;
+}
+
+std::string Block::getIdentifier()
+{
+	return this->m_identifier;
+}
+
+std::string Block::getArguments()
+{
+	return this->m_arguments;
+}
+
 void Block::initBlockTypes()
 {
 	QSettings settings("editor.ini", QSettings::IniFormat);
@@ -33,8 +53,9 @@ void Block::initBlockTypes()
 	resourceDir = settings.value("resourceDir").toString().toStdString();
 	settings.endGroup();
 
-	settings.beginGroup("Blocks");
-	const QStringList childKeys = settings.childKeys();
+	// Create the blocks
+	settings.beginGroup("Sprites");
+	QStringList childKeys = settings.childKeys();
 	foreach(const QString &childKey, childKeys)
 	{
 		std::string name = childKey.toStdString();
@@ -42,6 +63,26 @@ void Block::initBlockTypes()
 
 		Block *b = new Block(name,imageFile);
 		TYPES.insert(std::pair<std::string,Block*>(name,b));
+	}
+	settings.endGroup();
+
+	// Set the identifiers
+	settings.beginGroup("Identifiers");
+	childKeys = settings.childKeys();
+	foreach(const QString &childKey, childKeys)
+	{
+		std::string name = childKey.toStdString();
+		TYPES[name]->setIdentifier(settings.value(childKey).toString().toStdString());
+	}
+	settings.endGroup();
+
+	// Set the arguments
+	settings.beginGroup("Arguments");
+	childKeys = settings.childKeys();
+	foreach(const QString &childKey, childKeys)
+	{
+		std::string name = childKey.toStdString();
+		TYPES[name]->setArguments(settings.value(childKey).toString().toStdString());
 	}
 	settings.endGroup();
 

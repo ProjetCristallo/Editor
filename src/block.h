@@ -17,6 +17,15 @@ class Block
 		std::string m_name;
 		// Block sprite
 		QIcon *m_sprite;
+		
+		/* Elements to be put in the level file */
+		// Block identifier
+		std::string m_identifier;
+		// Block arguments
+		std::string m_arguments;
+
+		void setIdentifier(std::string id);
+		void setArguments(std::string arg);
 	public:
 		// Block types (name->block)
 		static std::map<std::string, Block*> TYPES;
@@ -25,6 +34,8 @@ class Block
 
 		std::string getName();
 		QIcon *getSprite();
+		std::string getIdentifier();
+		std::string getArguments();
 
 		static void initBlockTypes();
 		static const int NB_TYPES = 14;

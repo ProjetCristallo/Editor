@@ -75,8 +75,11 @@ void Level::save(QString fileName)
 			std::string name = this->m_grid[i][j]->getName();
 			if(name.compare("Empty") != 0)
 			{
+				Block *block = Block::TYPES[name];
+				std::string args = block->getArguments();
+				std::string identifier = block->getIdentifier();
 				std::stringstream lineStream;
-				lineStream << name << " " << i << " " << j << "\n";
+				lineStream << identifier << " " << i << " " << j << " " << args << "\n";
 				std::string lineStr = lineStream.str();
 				file.write(lineStr.c_str());
 			}
