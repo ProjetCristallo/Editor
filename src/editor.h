@@ -11,6 +11,7 @@
 #include <QSplitter>
 #include <QFrame>
 #include <QFileDialog>
+#include <QKeySequence>
 
 #include "level.h"
 #include "block.h"

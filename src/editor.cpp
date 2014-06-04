@@ -66,18 +66,22 @@ void Editor::createMenu()
 	// Menu bar creation
 	this->m_menuBar = this->menuBar();
 	this->m_fileMenu = this->m_menuBar->addMenu("Fichier");
-	// Exit app item
-	QAction *exitAction = new QAction("Quitter", this);
-	connect(exitAction, SIGNAL(triggered()), this, SLOT(quit()));
-	this->m_fileMenu->addAction(exitAction);
 	// Save action
 	QAction *saveAction = new QAction("Enregistrer", this);
+	saveAction->setShortcut(QKeySequence("Ctrl+S"));
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(saveLevel()));
 	this->m_fileMenu->addAction(saveAction);
 	// Save as action
 	QAction *saveAsAction = new QAction("Enregistrer sous", this);
+	saveAsAction->setShortcut(QKeySequence("Ctrl+Shift+S"));
 	connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveLevelAs()));
 	this->m_fileMenu->addAction(saveAsAction);
+
+	// Exit app item
+	QAction *exitAction = new QAction("Quitter", this);
+	exitAction->setShortcut(QKeySequence("Ctrl+Q"));
+	connect(exitAction, SIGNAL(triggered()), this, SLOT(quit()));
+	this->m_fileMenu->addAction(exitAction);
 }
 
 void Editor::createLevelView()
