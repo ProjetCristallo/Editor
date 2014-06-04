@@ -1,6 +1,6 @@
 #include "editor.h"
 
-extern const std::string resourceDir;
+extern std::string resourceDir;
 
 Editor::Editor(int dimX, int dimY):QMainWindow()
 {

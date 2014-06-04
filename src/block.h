@@ -5,8 +5,10 @@
 #include <string>
 #include <QIcon>
 #include <vector>
-
-const std::string resourceDir = "../ressources/";
+#include <QSettings>
+#include <QString>
+#include <QStringList>
+#include <iostream>
 
 class Block
 {
