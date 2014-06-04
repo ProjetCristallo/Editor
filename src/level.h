@@ -17,6 +17,8 @@ class Level
 		~Level();
 
 		Block *getBlock(int x, int y);
+		int getWidth();
+		int getHeight();
 
 		void setBlock(int x, int y, Block *b);
 		void setBlock(int x, int y, std::string name);

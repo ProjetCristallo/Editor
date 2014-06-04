@@ -29,6 +29,16 @@ Block *Level::getBlock(int x, int y)
 	return this->m_grid[x][y];
 }
 
+int Level::getWidth()
+{
+	return this->m_dimX;
+}
+
+int Level::getHeight()
+{
+	return this->m_dimY;
+}
+
 void Level::setBlock(int x, int y, Block *b)
 {
 	if(x >= 0 && x < this->m_dimX && y >= 0 && y <= this->m_dimY)

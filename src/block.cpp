@@ -6,6 +6,9 @@ Block::Block(std::string name, std::string imageFile)
 {
 	this->m_name = name;
 	this->m_imageFile = imageFile;
+	QString imagePath = QString::fromStdString(resourceDir);
+	imagePath.append(QString::fromStdString(imageFile));
+	this->m_sprite = new QIcon(imagePath);
 }
 
 Block::~Block()
@@ -20,6 +23,11 @@ std::string Block::getName()
 std::string Block::getImageFile()
 {
 	return this->m_imageFile;
+}
+
+QIcon *Block::getSprite()
+{
+	return this->m_sprite;
 }
 
 void Block::initBlockTypes()

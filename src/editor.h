@@ -8,6 +8,8 @@
 #include <QIcon>
 #include <QPushButton>
 #include <QString>
+#include <QSplitter>
+#include <QFrame>
 
 #include "level.h"
 #include "block.h"
@@ -21,6 +23,7 @@ class Editor: public QMainWindow
 
 	private:
 		static const int BUTTON_ICON_SIZE = 30;
+		static const int SPRITE_SIZE = 30;
 		// Level dimensions
 		int m_dimX;
 		int m_dimY;
@@ -35,10 +38,23 @@ class Editor: public QMainWindow
 		// Level grid
 		Level *m_level;
 
+
 		// Main Widget
 		QWidget *m_mainWidget;
+		// Button frame
+		QFrame *m_buttonFrame;
+		// Level frame
+		QFrame *m_levelFrame;
+		// Level view widget
+		QWidget *m_levelWidget;
+
 		// Main widget layout
-		QGridLayout *m_layout;
+		QGridLayout *m_mainLayout;
+		// Button frame layout
+		QGridLayout *m_buttonLayout;
+		// Level frame layout
+		QGridLayout *m_levelLayout;
+
 		// Signal mapper for the buttons
 		QSignalMapper *m_blockButtonsMapper;
 
@@ -46,10 +62,12 @@ class Editor: public QMainWindow
 		QMenuBar *m_menuBar;
 		QMenu *m_fileMenu;
 		
+
 		// UI initialization
 		void initUI();
 		void createMenu();
 		void createChoiceButtons();
+		void createLevelView();
 
 	public slots:
 		void quit();

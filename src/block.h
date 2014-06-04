@@ -3,14 +3,19 @@
 
 #include <map>
 #include <string>
+#include <QIcon>
+
+const std::string resourceDir = "../ressources/";
 
 class Block
 {
 	private:
 		// Block name
 		std::string m_name;
-		// Block sprite
+		// Block sprite file
 		std::string m_imageFile;
+		// Block sprite
+		QIcon *m_sprite;
 	public:
 		// Block types (name->block)
 		static std::map<std::string, Block*> TYPES;
@@ -19,6 +24,7 @@ class Block
 
 		std::string getName();
 		std::string getImageFile();
+		QIcon *getSprite();
 
 		static void initBlockTypes();
 		static const int NB_TYPES = 14;
