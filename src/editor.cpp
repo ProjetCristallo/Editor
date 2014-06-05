@@ -1,6 +1,7 @@
 #include "editor.h"
 
 extern std::string resourceDir;
+extern std::string levelDir;
 
 Editor::Editor(int dimX, int dimY):QMainWindow()
 {
@@ -207,9 +208,10 @@ void Editor::setCurrentBlock(QString block)
 
 void Editor::openLevel()
 {
+	QString fileOld = this->m_levelFile;
 	this->m_levelFile = QFileDialog::getOpenFileName(	this, 
 			tr("Choix du fichier"), 
-			QDir::currentPath(), 
+			QString::fromStdString(levelDir), 
 			tr("text files (*.txt)")
 			);
 	if(this->m_levelFile != "")
@@ -224,15 +226,20 @@ void Editor::openLevel()
 			}
 		}
 	}
+	else
+	{
+		this->m_levelFile = fileOld;
+	}
 }
 
 void Editor::saveLevel()
 {
+	QString fileOld = this->m_levelFile;
 	if(this->m_levelFile == "")
 	{
 		this->m_levelFile = QFileDialog::getSaveFileName(	this, 
 				tr("Choix du fichier"), 
-				QDir::currentPath(), 
+				QString::fromStdString(levelDir), 
 				tr("text files (*.txt)")
 				);
 	}
@@ -240,18 +247,27 @@ void Editor::saveLevel()
 	{
 		this->m_level->save(this->m_levelFile);
 	}
+	else
+	{
+		this->m_levelFile = fileOld;
+	}
 }
 
 void Editor::saveLevelAs()
 {
+	QString fileOld = this->m_levelFile;
 	this->m_levelFile = QFileDialog::getSaveFileName(	this, 
 			tr("Choix du fichier"), 
-			QDir::currentPath(), 
+			QString::fromStdString(levelDir), 
 			tr("text files (*.txt)")
 			);
 	if(this->m_levelFile != "")
 	{
 		this->m_level->save(this->m_levelFile);
+	}
+	else
+	{
+		this->m_levelFile = fileOld;
 	}
 }
 

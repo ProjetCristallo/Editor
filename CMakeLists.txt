@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 project(Editeur)
 #Chemin de l'executable
 set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
-set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so)
+set(CMAKE_FIND_LIBRARY_SUFFIXES .o .so)
 
 find_package(Qt5Widgets)
 find_package(Qt5Gui)

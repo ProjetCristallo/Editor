@@ -1,6 +1,6 @@
 #include "block.h"
 
-std::string resourceDir = "../ressources/";
+extern std::string resourceDir;
 std::map<std::string, Block*> Block::TYPES;
 std::vector<std::string> uniqueBlocks;
 
@@ -49,9 +49,6 @@ std::string Block::getArguments()
 void Block::initBlockTypes()
 {
 	QSettings settings("editor.ini", QSettings::IniFormat);
-	settings.beginGroup("Config");
-	resourceDir = settings.value("resourceDir").toString().toStdString();
-	settings.endGroup();
 
 	// Create the blocks
 	settings.beginGroup("Sprites");
