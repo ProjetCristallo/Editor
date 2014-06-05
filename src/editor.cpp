@@ -112,6 +112,7 @@ void Editor::createLevelView()
 			this->m_levelButtons[i][j] = new QPushButton("", this->m_levelFrame);
 			this->m_levelButtons[i][j]->setIcon(*(tmp->getSprite()));
 			this->m_levelButtons[i][j]->setIconSize(QSize(SPRITE_SIZE ,SPRITE_SIZE));
+			this->m_levelButtons[i][j]->setFlat(true);
 
 			QString args = "";
 			args.append(QString::number(i));
