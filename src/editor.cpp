@@ -13,7 +13,7 @@ Editor::Editor(int dimX, int dimY):QMainWindow()
 	this->m_posX = 0;
 	this->m_posY = 0;
 	
-	this->m_currentBlock = "Simple";
+	this->m_currentBlock = "simple";
 
 	this->m_level = new Level(this->m_dimX, this->m_dimY);
 
