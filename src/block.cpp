@@ -83,6 +83,13 @@ void Block::initBlockTypes()
 	}
 	settings.endGroup();
 
-	uniqueBlocks.push_back("Begin");
-	uniqueBlocks.push_back("End");
+	// Set the unique blocks
+	settings.beginGroup("Uniques");
+	childKeys = settings.childKeys();
+	foreach(const QString &childKey, childKeys)
+	{
+		std::string name = childKey.toStdString();
+		uniqueBlocks.push_back(name);
+	}
+	settings.endGroup();
 }
