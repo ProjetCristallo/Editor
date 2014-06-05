@@ -66,11 +66,19 @@ void Editor::createMenu()
 	// Menu bar creation
 	this->m_menuBar = this->menuBar();
 	this->m_fileMenu = this->m_menuBar->addMenu("Fichier");
+
+	// Open action
+	QAction *openAction = new QAction("Ouvrir", this);
+	openAction->setShortcut(QKeySequence("Ctrl+O"));
+	connect(openAction, SIGNAL(triggered()), this, SLOT(openLevel()));
+	this->m_fileMenu->addAction(openAction);
+
 	// Save action
 	QAction *saveAction = new QAction("Enregistrer", this);
 	saveAction->setShortcut(QKeySequence("Ctrl+S"));
 	connect(saveAction, SIGNAL(triggered()), this, SLOT(saveLevel()));
 	this->m_fileMenu->addAction(saveAction);
+
 	// Save as action
 	QAction *saveAsAction = new QAction("Enregistrer sous", this);
 	saveAsAction->setShortcut(QKeySequence("Ctrl+Shift+S"));
@@ -197,6 +205,27 @@ void Editor::setCurrentBlock(QString block)
 	this->m_currentBlock = block.toStdString();
 }
 
+void Editor::openLevel()
+{
+	this->m_levelFile = QFileDialog::getOpenFileName(	this, 
+			tr("Choix du fichier"), 
+			QDir::currentPath(), 
+			tr("text files (*.txt)")
+			);
+	if(this->m_levelFile != "")
+	{
+		this->m_level->load(this->m_levelFile);
+		for(int x = 0 ; x < this->m_dimX ; x++)
+		{
+			for(int y = 0 ; y < this->m_dimY ; y++)
+			{
+				QIcon icon = *(this->m_level->getBlock(x,y)->getSprite());
+				this->m_levelButtons[x][y]->setIcon(icon);
+			}
+		}
+	}
+}
+
 void Editor::saveLevel()
 {
 	if(this->m_levelFile == "")
@@ -207,7 +236,10 @@ void Editor::saveLevel()
 				tr("text files (*.txt)")
 				);
 	}
-	this->m_level->save(this->m_levelFile);
+	if(this->m_levelFile != "")
+	{
+		this->m_level->save(this->m_levelFile);
+	}
 }
 
 void Editor::saveLevelAs()
@@ -217,7 +249,10 @@ void Editor::saveLevelAs()
 			QDir::currentPath(), 
 			tr("text files (*.txt)")
 			);
-	this->m_level->save(this->m_levelFile);
+	if(this->m_levelFile != "")
+	{
+		this->m_level->save(this->m_levelFile);
+	}
 }
 
 void Editor::deleteUniqueBlock(std::string block)

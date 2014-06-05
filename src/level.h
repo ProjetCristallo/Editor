@@ -6,6 +6,8 @@
 #include <sstream>
 #include <QFile>
 #include <QString>
+#include <QMessageBox>
+#include <QTextStream>
 
 class Level
 {
@@ -27,5 +29,6 @@ class Level
 		void setBlock(int x, int y, std::string name);
 
 		void save(QString fileName);
+		void load(QString fileName);
 };
 #endif

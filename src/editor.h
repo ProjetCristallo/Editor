@@ -84,6 +84,7 @@ class Editor: public QMainWindow
 		void quit();
 		void setCurrentBlock(QString block);
 		void setLevelBlock(	QString args);
+		void openLevel();
 		void saveLevel();
 		void saveLevelAs();
 	public:
