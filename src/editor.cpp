@@ -145,7 +145,7 @@ void Editor::setLevelBlock(QString args)
 	// Delete the previous block in the level if the new block is unique
 	for(int i = 0 ; i < uniqueBlocks.size() ; i++)
 	{
-		if(block == uniqueBlocks[i])
+		if(Block::TYPES[block]->getIdentifier() == uniqueBlocks[i])
 		{
 			this->deleteUniqueBlock(block);
 		}
@@ -280,7 +280,7 @@ void Editor::deleteUniqueBlock(std::string block)
 		for(int j = 0 ; j < this->m_dimY ; j++)
 		{
 			// If the block of the type we want, we make it empty
-			if(this->m_level->getBlock(i,j)->getName() == block)
+			if(this->m_level->getBlock(i,j)->getIdentifier() == Block::TYPES[block]->getIdentifier())
 			{
 				// Set the block in the level
 				this->m_level->setBlock(i,j,"Empty");
