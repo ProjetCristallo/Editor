@@ -1,14 +1,16 @@
 #include "init.h"
 #include "block.h"
 #include <unistd.h>
+#include <QFile>
 
-std::string resourceDir = "../ressources/";
+std::string resourceDir = "./ressources/";
 std::string levelDir = "../levels/";
 
 bool init()
 {
 	// Check if the ini file exists
-	if(access("editor.ini", 0) != 0)
+	QFile f("editor.ini");
+	if(!f.exists())
 	{
 		return false;
 	}

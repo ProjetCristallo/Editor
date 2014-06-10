@@ -6,7 +6,10 @@
 int main(int argc, char *argv[])
 {
 	QApplication app(argc,argv);
-	init();
+	if(!init())
+	{
+		return 1;
+	}
 	Editor editor;
 	editor.show();
 	return app.exec();
