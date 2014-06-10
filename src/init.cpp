@@ -1,6 +1,5 @@
 #include "init.h"
 #include "block.h"
-#include <unistd.h>
 #include <QFile>
 
 std::string resourceDir = "./ressources/";
