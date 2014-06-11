@@ -177,10 +177,15 @@ void Editor::createChoiceButtons()
 	{
 		// Get the name of the block
 		QString name = QString::fromStdString(it->second->getName());
+		QString description = QString::fromStdString(it->second->getDescription());
 		// Create the button
 		QPushButton *button = new QPushButton("", this->m_mainWidget);
 		button->setIcon(*(it->second->getSprite()));
 		button->setIconSize(QSize(BUTTON_ICON_SIZE,BUTTON_ICON_SIZE));
+		if(description != "")
+		{
+			button->setToolTip(description);
+		}
 
 		// Connect the button to a callback
 		connect(button, SIGNAL(clicked()), this->m_blockButtonsMapper, SLOT(map()));
@@ -197,6 +202,18 @@ void Editor::createChoiceButtons()
 			i = 0;
 		}
 	}
+	int pos = int(this->m_sizeY/BUTTON_ICON_SIZE)+2;
+	QLabel *scoreLabel1 = new QLabel("Nb moves : 2 star", 
+									this->m_buttonFrame);
+	this->m_score1 = new QSpinBox(this->m_buttonFrame);
+	this->m_buttonLayout->addWidget(scoreLabel1, pos,0, 1,2);
+	this->m_buttonLayout->addWidget(this->m_score1, pos,2, 1,1);
+
+	QLabel *scoreLabel2 = new QLabel("Nb moves : 3 star", 
+									this->m_buttonFrame);
+	this->m_score2 = new QSpinBox(this->m_buttonFrame);
+	this->m_buttonLayout->addWidget(scoreLabel2, pos+1,0, 1,2);
+	this->m_buttonLayout->addWidget(this->m_score2, pos+1,2, 1,1);
 	// Connect the Signal mapper to the callback
 	connect(this->m_blockButtonsMapper, SIGNAL(mapped(QString)), this, SLOT(setCurrentBlock(QString)));
 	// Set the layout
@@ -223,7 +240,11 @@ void Editor::openLevel()
 			);
 	if(this->m_levelFile != "")
 	{
-		this->m_level->load(this->m_levelFile);
+		int score1 = 0;
+		int score2 = 0;
+		this->m_level->load(this->m_levelFile, &score1, &score2);
+		this->m_score1->setValue(score1);
+		this->m_score2->setValue(score2);
 		for(int x = 0 ; x < this->m_dimX ; x++)
 		{
 			for(int y = 0 ; y < this->m_dimY ; y++)
@@ -252,7 +273,7 @@ void Editor::saveLevel()
 	}
 	if(this->m_levelFile != "")
 	{
-		this->m_level->save(this->m_levelFile);
+		this->m_level->save(this->m_levelFile, this->m_score1->value(), this->m_score2->value());
 	}
 	else
 	{
@@ -270,7 +291,7 @@ void Editor::saveLevelAs()
 			);
 	if(this->m_levelFile != "")
 	{
-		this->m_level->save(this->m_levelFile);
+		this->m_level->save(this->m_levelFile, this->m_score1->value(), this->m_score2->value());
 	}
 	else
 	{

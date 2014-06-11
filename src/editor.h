@@ -12,6 +12,8 @@
 #include <QFrame>
 #include <QFileDialog>
 #include <QKeySequence>
+#include <QSpinBox>
+#include <QLabel>
 
 #include "level.h"
 #include "block.h"
@@ -53,6 +55,9 @@ class Editor: public QMainWindow
 		// Level view widget
 		QWidget *m_levelWidget;
 		QPushButton ***m_levelButtons;
+		// Level score widgets
+		QSpinBox *m_score1;
+		QSpinBox *m_score2;
 
 		// Main widget layout
 		QGridLayout *m_mainLayout;

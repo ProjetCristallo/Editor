@@ -23,9 +23,12 @@ class Block
 		std::string m_identifier;
 		// Block arguments
 		std::string m_arguments;
+		// Block description
+		std::string m_description;
 
 		void setIdentifier(std::string id);
 		void setArguments(std::string arg);
+		void setDescription(std::string desc);
 	public:
 		// Block types (name->block)
 		static std::map<std::string, Block*> TYPES;
@@ -36,6 +39,7 @@ class Block
 		QIcon *getSprite();
 		std::string getIdentifier();
 		std::string getArguments();
+		std::string getDescription();
 
 		static void initBlockTypes();
 		static const int NB_TYPES = 14;

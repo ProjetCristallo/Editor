@@ -28,8 +28,8 @@ class Level
 		void setBlock(int x, int y, Block *b);
 		void setBlock(int x, int y, std::string name);
 
-		void save(QString fileName);
-		void load(QString fileName);
+		void save(QString fileName, int score1, int score2);
+		void load(QString fileName, int *score1, int *score2);
 		void clean();
 };
 #endif
