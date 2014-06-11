@@ -30,5 +30,6 @@ class Level
 
 		void save(QString fileName);
 		void load(QString fileName);
+		void clean();
 };
 #endif

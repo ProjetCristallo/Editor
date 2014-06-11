@@ -102,6 +102,7 @@ void Level::load(QString fileName)
 	QFile file(fileName);
 	if(file.open(QIODevice::ReadOnly))
 	{
+		this->clean();
 		QTextStream in(&file);
 		while(!in.atEnd())
 		{
@@ -137,5 +138,16 @@ void Level::load(QString fileName)
 		msgBox.setText("Erreur : Impossible d'ouvrir le fichier "+fileName);
 		msgBox.setStandardButtons(QMessageBox::Ok);
 		msgBox.exec();
+	}
+}
+
+void Level::clean()
+{
+	for(int i = 0 ; i < this->m_dimX ; i++)
+	{
+		for(int j = 0 ; j < this->m_dimY ; j++)
+		{
+			this->m_grid[i][j] = Block::TYPES["Empty"];
+		}
 	}
 }
