@@ -64,11 +64,15 @@ void Level::setBlock(int x, int y, std::string name)
 	}
 }
 
-void Level::save(QString fileName)
+void Level::save(QString fileName, int score1, int score2)
 {
 	QFile file(fileName);
 	if(file.open(QIODevice::WriteOnly))
 	{
+		std::stringstream lineStream;
+		lineStream << score1 << " " << score2 << "\n";
+		std::string lineStr = lineStream.str();
+		file.write(lineStr.c_str());
 		for(int i = 0 ; i < this->m_dimX ; i++)
 		{
 			for(int j = 0 ; j < this->m_dimY ; j++)
@@ -97,13 +101,20 @@ void Level::save(QString fileName)
 	}
 }
 
-void Level::load(QString fileName)
+void Level::load(QString fileName, int *score1, int *score2)
 {
 	QFile file(fileName);
 	if(file.open(QIODevice::ReadOnly))
 	{
 		this->clean();
 		QTextStream in(&file);
+		if(!in.atEnd())
+		{
+			QString line = in.readLine();
+			QStringList args = line.split(" ");
+			*score1 = args[0].toInt();
+			*score2 = args[1].toInt();
+		}
 		while(!in.atEnd())
 		{
 			QString line = in.readLine();

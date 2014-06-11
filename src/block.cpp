@@ -10,6 +10,8 @@ Block::Block(std::string name, std::string imageFile)
 	QString imagePath = QString::fromStdString(resourceDir);
 	imagePath.append(QString::fromStdString(imageFile));
 	this->m_sprite = new QIcon(imagePath);
+	this->m_arguments = "";
+	this->m_description = "";
 }
 
 Block::~Block()
@@ -49,6 +51,7 @@ std::string Block::getArguments()
 void Block::initBlockTypes()
 {
 	QSettings settings("editor.ini", QSettings::IniFormat);
+	std::map<std::string, Block*>::iterator it;
 
 	// Create the blocks
 	settings.beginGroup("Sprites");
@@ -70,7 +73,11 @@ void Block::initBlockTypes()
 	foreach(const QString &childKey, childKeys)
 	{
 		std::string name = childKey.toStdString();
-		TYPES[name]->setIdentifier(settings.value(childKey).toString().toStdString());
+		it = Block::TYPES.find(name);
+		if(it != Block::TYPES.end())
+		{
+			TYPES[name]->setIdentifier(settings.value(childKey).toString().toStdString());
+		}
 	}
 	settings.endGroup();
 
@@ -80,7 +87,23 @@ void Block::initBlockTypes()
 	foreach(const QString &childKey, childKeys)
 	{
 		std::string name = childKey.toStdString();
-		TYPES[name]->setArguments(settings.value(childKey).toString().toStdString());
+		if(it != Block::TYPES.end())
+		{
+			TYPES[name]->setArguments(settings.value(childKey).toString().toStdString());
+		}
+	}
+	settings.endGroup();
+
+	// Set the description
+	settings.beginGroup("Description");
+	childKeys = settings.childKeys();
+	foreach(const QString &childKey, childKeys)
+	{
+		std::string name = childKey.toStdString();
+		if(it != Block::TYPES.end())
+		{
+			TYPES[name]->setDescription(settings.value(childKey).toString().toStdString());
+		}
 	}
 	settings.endGroup();
 
@@ -92,4 +115,14 @@ void Block::initBlockTypes()
 		uniqueBlocks.push_back(settings.value(childKey).toString().toStdString());
 	}
 	settings.endGroup();
+}
+
+void Block::setDescription(std::string desc)
+{
+	this->m_description = desc;
+}
+
+std::string Block::getDescription()
+{
+	return this->m_description;
 }
