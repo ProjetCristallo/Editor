@@ -11,6 +11,8 @@ set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so)
 find_package(Qt5Widgets)
 find_package(Qt5Gui)
 
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory bin)
+
 #include
 include_directories(${QT_INCLUDE})
 
