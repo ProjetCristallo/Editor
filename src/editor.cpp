@@ -68,6 +68,12 @@ void Editor::createMenu()
 	this->m_menuBar = this->menuBar();
 	this->m_fileMenu = this->m_menuBar->addMenu("Fichier");
 
+	// New action
+	QAction *newAction = new QAction("Nouveau", this);
+	newAction->setShortcut(QKeySequence("Ctrl+N"));
+	connect(newAction, SIGNAL(triggered()), this, SLOT(newLevel()));
+	this->m_fileMenu->addAction(newAction);
+
 	// Open action
 	QAction *openAction = new QAction("Ouvrir", this);
 	openAction->setShortcut(QKeySequence("Ctrl+O"));
@@ -290,4 +296,23 @@ void Editor::deleteUniqueBlock(std::string block)
 			}
 		}
 	}
+}
+
+void Editor::cleanLevel()
+{
+	this->m_level->clean();
+	QIcon icon = *(Block::TYPES["Empty"]->getSprite());
+	for(int i = 0 ; i < this->m_dimX ; i++)
+	{
+		for(int j = 0 ; j < this->m_dimY ; j++)
+		{
+			this->m_levelButtons[i][j]->setIcon(icon);
+		}
+	}
+}
+
+void Editor::newLevel()
+{
+	this->cleanLevel();
+	this->m_levelFile = "";
 }

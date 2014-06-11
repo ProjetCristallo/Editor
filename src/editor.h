@@ -79,6 +79,7 @@ class Editor: public QMainWindow
 		void createChoiceButtons();
 		void createLevelView();
 		void deleteUniqueBlock(std::string block);
+		void cleanLevel();
 
 	public slots:
 		void quit();
@@ -87,6 +88,7 @@ class Editor: public QMainWindow
 		void openLevel();
 		void saveLevel();
 		void saveLevelAs();
+		void newLevel();
 	public:
 		Editor(int dimX = 10, int dimY = 8);
 		~Editor();
