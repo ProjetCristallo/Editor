@@ -12,5 +12,5 @@ Level Editor for the game Cristal Maze
 
 # Compilation
 ## Requirements
-	* Qt5.3.0
-	* cmake 2.8.8 (or higher) or qmake for Qt5 or QtCreator for Qt5
+	* Qt4 or Qt5
+	* cmake 2.8.8 (or higher) or qmake or QtCreator
