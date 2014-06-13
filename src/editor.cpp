@@ -11,8 +11,8 @@ Editor::Editor(int dimX, int dimY):QMainWindow()
 	this->m_sizeX = 300;
 	this->m_sizeY = 200;
 
-	this->m_posX = 0;
-	this->m_posY = 0;
+    this->m_posX = 50;
+    this->m_posY = 50;
 	
 	this->m_currentBlock = "simple";
 
