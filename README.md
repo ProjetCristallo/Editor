@@ -11,6 +11,6 @@ ______________________________________
 * Blocks can be set as unique
 
 ## Compilation
-> Requirements
+# Requirements
 	* Qt5.3.0
 	* cmake 2.8.8 (or higher) or qmake for Qt5 or QtCreator for Qt5
