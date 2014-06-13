@@ -2,8 +2,10 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Alchemist_Editor
+TARGET = Editor
 TEMPLATE = app
+DESTDIR = bin
+OBJECTS_DIR = obj
 
 
 SOURCES += \
