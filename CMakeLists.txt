@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 
 set(CMAKE_AUTOMOC ON)
+option(QT5 "QT5" ON)
 
 #Projet
 project(Editeur)
@@ -24,8 +25,10 @@ add_executable(Editeur ${SOURCE_FILES})
 
 
 #============    Qt5    =================#
-find_package(Qt5Widgets)
-find_package(Qt5Gui)
+IF(QT5)
+	find_package(Qt5Widgets)
+	find_package(Qt5Gui)
+ENDIF()
 IF(Qt5Widgets_FOUND AND Qt5Gui_FOUND)
 
 	qt5_use_modules(Editeur Widgets Gui)
