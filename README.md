@@ -24,3 +24,10 @@ None, the program comes with the needed dlls
 By default cmake will try to use Qt5 and will switch to Qt4 if Qt5 was not found.
 ## Options
 	* Use the option -DQT5=OFF when running cmake to force the use of Qt4. 
+
+# License
+This software is under license CC BY-NC 4.0 (see License.txt or http://creativecommons.org/licenses/by-nc/4.0/legalcode for the full license)
+You are free to share and adapt this software as long as you give credit to the original creator and indicate if any changes were made. You are not allowed to use this software for commercial purposes.
+
+# Author
+	* Thomas Coeffic (aka Eusmilis)
