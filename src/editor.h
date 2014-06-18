@@ -14,9 +14,11 @@
 #include <QKeySequence>
 #include <QSpinBox>
 #include <QLabel>
+#include <QNetworkConfigurationManager>
 
 #include "level.h"
 #include "block.h"
+#include "login.h"
 
 #include <string>
 #include <iostream>
@@ -74,6 +76,7 @@ class Editor: public QMainWindow
 		// Menu bar
 		QMenuBar *m_menuBar;
 		QMenu *m_fileMenu;
+		QMenu *m_networkMenu;
 
 		// File name for the level
 		QString m_levelFile;
@@ -94,6 +97,8 @@ class Editor: public QMainWindow
 		void saveLevel();
 		void saveLevelAs();
 		void newLevel();
+		void send(QString &login, QString &passwd);
+		void login();
 	public:
 		Editor(int dimX = 10, int dimY = 8);
 		~Editor();

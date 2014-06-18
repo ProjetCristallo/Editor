@@ -111,6 +111,14 @@ void Editor::createMenu()
 	exitAction->setShortcut(QKeySequence("Ctrl+Q"));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(quit()));
 	this->m_fileMenu->addAction(exitAction);
+
+
+	this->m_networkMenu = this->m_menuBar->addMenu("Réseau");
+	// Send level action
+	QAction *sendAction = new QAction("Envoyer", this);
+//	sendAction->setShortcut(QKeySequence("Ctrl+Q"));
+	connect(sendAction, SIGNAL(triggered()), this, SLOT(login()));
+	this->m_networkMenu->addAction(sendAction);
 }
 
 void Editor::createLevelView()
@@ -350,4 +358,17 @@ void Editor::newLevel()
 {
 	this->cleanLevel();
 	this->m_levelFile = "";
+}
+
+void Editor::login()
+{
+	LoginDialog *log = new LoginDialog(this);
+	connect(log, SIGNAL(acceptLogin(QString &, QString &)),
+			this, SLOT(send(QString &,QString &)));
+	log->exec();
+}
+
+void Editor::send(QString &login, QString &passwd)
+{
+	std::cerr << login.toStdString() << ", " << passwd.toStdString() << "\n";
 }
