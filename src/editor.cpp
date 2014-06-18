@@ -3,6 +3,8 @@
 extern std::string resourceDir;
 extern std::string levelDir;
 
+int Editor::SPRITE_SIZE = 30;
+
 Editor::Editor(int dimX, int dimY):QMainWindow()
 {
 	this->m_dimX = dimX;
@@ -10,6 +12,18 @@ Editor::Editor(int dimX, int dimY):QMainWindow()
 
 	this->m_sizeX = 300;
 	this->m_sizeY = 200;
+
+	int spriteX = this->m_sizeX / this->m_dimX;
+	int spriteY = this->m_sizeY / this->m_dimY;
+
+	if(spriteX < spriteY)
+	{
+		Editor::SPRITE_SIZE = spriteX;
+	}
+	else
+	{
+		Editor::SPRITE_SIZE = spriteY;
+	}
 
     this->m_posX = 50;
     this->m_posY = 50;

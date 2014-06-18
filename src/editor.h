@@ -30,7 +30,7 @@ class Editor: public QMainWindow
 
 	private:
 		static const int BUTTON_ICON_SIZE = 30;
-		static const int SPRITE_SIZE = 30;
+		static int SPRITE_SIZE;
 		// Level dimensions
 		int m_dimX;
 		int m_dimY;

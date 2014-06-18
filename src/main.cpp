@@ -3,6 +3,9 @@
 #include "init.h"
 #include <QApplication>
 
+extern int dimX;
+extern int dimY;
+
 int main(int argc, char *argv[])
 {
 	QApplication app(argc,argv);
@@ -10,7 +13,7 @@ int main(int argc, char *argv[])
 	{
 		return 1;
 	}
-	Editor editor;
+	Editor editor(dimX,dimY);
 	editor.show();
 	return app.exec();
 }

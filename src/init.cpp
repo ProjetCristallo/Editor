@@ -4,6 +4,8 @@
 
 std::string resourceDir = "./ressources/";
 std::string levelDir = "../levels/";
+int dimX = 10;
+int dimY = 8;
 
 bool init()
 {
@@ -25,5 +27,7 @@ void readConfig()
 	settings.beginGroup("Config");
 	resourceDir = settings.value("resourceDir").toString().toStdString();
 	levelDir = settings.value("levelDir").toString().toStdString();
+	dimX = settings.value("dimX").toInt();
+	dimY = settings.value("dimY").toInt();
 	settings.endGroup();
 }
